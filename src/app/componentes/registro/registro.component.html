@@ -1,0 +1,124 @@
+<!-- <app-cabecera>  </app-cabecera> -->
+
+<body>
+  <!-- <div class="jumbotron">
+    <h2 id="terminos">Terminos y condiciones</h2>
+    <p>El Gobierno de la República Argentina (en adelante el “Gobierno Nacional”) no es responsable por los daños y perjuicios que puedan surgir, incluyendo, sin límite, daños, pérdidas o gastos directos, indirectos, que surjan en relación con el uso de los Activos Digitales o la imposibilidad de uso, en relación con cualquier falla en el vencimiento, error, omisión, interrupción, defecto, demora en la operación o transmisión, virus de computadora o falla del sistema de línea, aún en el caso de que el Gobierno Nacional o sus representantes fueran informados sobre la posibilidad de dichos daños, pérdidas o gastos.</p>
+    <p>El Gobierno Nacional no controla ni garantiza la ausencia de virus ni de otros elementos en los contenidos que puedan producir alteraciones en su sistema informático (software y hardware) o en los documentos electrónicos y ficheros almacenados en su sistema informático.</p>
+    <p>El Gobierno Nacional no puede garantizar que la transmisión de información por parte de los Usuarios sea completamente segura. El Usuario asume este riesgo.</p>
+   
+  </div>
+  <strong><p>No leer lo anterior, es solo un ejemplo sacado de https://www.argentina.gob.ar/terminos-y-condiciones </p></strong>
+  <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Acepto</button>
+  <button  class="cancelbtn"  routerLink="/Principal" style="width:auto;">No acepto</button> -->
+  <!-- <div id="id01" class="modal"> -->
+  <div>
+      <!-- <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span> -->
+    <!-- <form class="modal-content animate" > -->
+    <p-toast key="msjDatos" position="top-right"></p-toast>
+
+    <form [formGroup]="formRegistro">
+      <div class="container-fluid">
+        <label><b>Email</b></label>
+        <label *ngIf="authService.isLoggedIn()" style="display: block;">{{this.formRegistro.value.usuario}}</label>
+        <!-- <input formControlName="usuario" type="text" placeholder="Ingresa tu correo" name="email" required> -->
+        <span class="ui-float-label" *ngIf="!authService.isLoggedIn()">
+            <input id="usuario" formControlName="usuario" name="uname" type="text" pInputText required> 
+            <label for="usuario">Ingresá tu correo</label>
+        </span>
+  
+        <label *ngIf="!authService.isLoggedIn()"><b>Clave</b></label>
+        <!-- <input formControlName="clave" type="password" placeholder="Aca la clave" name="psw" required> -->
+        <span class="ui-float-label" *ngIf="!authService.isLoggedIn()">
+            <input id="clave" formControlName="clave" name="psw" type="password" [feedback]="false" pPassword required> 
+            <label for="clave">Ingresá una clave</label>
+        </span>
+  
+        <label *ngIf="!authService.isLoggedIn()"><b>Repita la clave</b></label>
+        <!-- <input formControlName="confirmaClave" type="password" placeholder="Aca repeti la misa clave  de arriba" name="psw-repeat" required> -->
+        <span class="ui-float-label" *ngIf="!authService.isLoggedIn()">
+            <input id="confirmaClave" formControlName="confirmaClave" name="psw-repeat" type="password" [feedback]="false" pPassword required> 
+            <label for="confirmaClave">Volvé a ingresar la misma clave</label>
+        </span>
+  
+        <label *ngIf="authService.isLoggedIn()"><b>Selecciona una sucursal</b></label>
+        <p-listbox *ngIf="authService.isLoggedIn()" formControlName="sucursal" [options]="listaSucursales"></p-listbox>
+  
+        <label><b>Selecciona un perfil</b></label>
+        <p-listbox formControlName="perfil" [options]="perfiles"></p-listbox>
+        <!-- <input formControlName="habilitaAdmin" type="password" placeholder="Ingrese clave para habilitar Admin" name="pswAdmin" *ngIf="eligeAdmin()"> -->
+        <span class="ui-float-label" *ngIf="eligeAdmin()">
+            <input id="habilitaAdmin" formControlName="habilitaAdmin" name="pswAdmin" type="password" [feedback]="false" pPassword> 
+            <label for="habilitaAdmin">Ingresá la clave para habilitar Admin</label>
+        </span>
+        
+        <div *ngIf="!authService.isLoggedIn()">
+          <label><b>Selecciona una imagen para el perfil</b></label>
+        </div>
+        <input *ngIf="!authService.isLoggedIn()" formControlName="imagen" type="file" name="img-file" accept="image/png" id="img-file">
+
+        <!-- <label class="container">Masculino
+          <input formControlName="sexo" type="radio" checked value={{eSexo.masculino}}>
+          <span class="checkmark"></span>
+        </label>
+        <label class="container">Femenino
+          <input formControlName="sexo" type="radio" value={{eSexo.femenino}}>
+          <span class="checkmark"></span>
+        </label>
+                  
+        <label><b>Cuit</b></label>
+        <input formControlName="cuit" type="text" placeholder="Ingresa tu CUIT" name="email" required> -->
+
+        <div class="clearfix">
+          <button *ngIf="authService.isLoggedIn()" type="button" (click)="usuariosService.muestraAbm=false" class="cancelbtn">Volver</button>
+          <button *ngIf="!authService.isLoggedIn()" type="button" (click)="goBack()" class="cancelbtn">Volver</button>
+          <button *ngIf="!authService.isLoggedIn()" type="button" (click)="registrar()" class="signupbtn">
+            Registrarme
+            <i class="fa fa-spinner fa-spin" *ngIf="getEnEspera()"></i>
+          </button>
+          <button *ngIf="authService.isLoggedIn()" type="button" (click)="actualizar()" class="signupbtn">
+            Guardar
+            <i class="fa fa-spinner fa-spin" *ngIf="getEnEspera()"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+    <!-- <h3 class="first">Addons</h3>
+    <div class="ui-g ui-fluid">
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon"><i class="pi pi-user" style="line-height: 1.25;"></i></span>
+                <input type="text" pInputText placeholder="Username">         
+            </div>
+        </div>
+        
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">$</span>
+                <input type="text" pInputText placeholder="Price">   
+                <span class="ui-inputgroup-addon">.00</span>      
+            </div>
+        </div>
+                
+        <div class="ui-g-12 ui-md-4">
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon">www</span>
+                <input type="text" pInputText placeholder="Website">      
+            </div>
+        </div>
+    </div> -->
+    </div>
+  
+  <!-- <script>
+  // Get the modal
+  var modal = document.getElementById('id01');
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  }
+  </script> -->
+  
+</body>
