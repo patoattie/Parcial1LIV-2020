@@ -6,14 +6,15 @@ import { Observable } from 'rxjs';
 import {Usuario} from '../clases/usuario';
 import {AuthService} from './auth.service';
 import { EPerfil } from '../enums/eperfil.enum';
-//import { Sucursal } from '../clases/sucursal';
+// import { Sucursal } from '../clases/sucursal';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsuariosService 
+export class UsuariosService
 {
   private usuarios: Observable<Usuario[]>;
+  private usuarioDoc: AngularFirestoreDocument<Usuario>;
   private usuarioCollection: AngularFirestoreCollection<any>;
   public muestraAbm: boolean;
 
@@ -37,24 +38,29 @@ export class UsuariosService
     return this.usuarios;
   }
 
+  public getUsuarioObs(uid: string): Observable<Usuario> {
+    this.usuarioDoc = this.afs.doc<Usuario>(`Usuarios/${uid}`);
+    return this.usuarioDoc.valueChanges();
+  }
+
   public getUsuario(uid: string): Usuario
   {
     let retorno: Usuario = JSON.parse(localStorage.getItem('usuario'));
 
-    if(retorno == null || retorno.perfil == undefined || retorno.sucursal == undefined)
+    if (retorno === null || retorno.perfil === undefined || retorno.sucursal === undefined)
     {
       this.usuarios.forEach(arrUsuarios =>
         {
           arrUsuarios.forEach(unUsuario =>
             {
-              if(unUsuario.uid == uid)
+              if (unUsuario.uid === uid)
               {
                 retorno = unUsuario;
                 localStorage.setItem('usuario', JSON.stringify(retorno));
               }
             });
         });
-        //this.poblarLocal(uid);
+        // this.poblarLocal(uid);
       retorno = JSON.parse(localStorage.getItem('usuario'));
     }
 
@@ -67,7 +73,7 @@ export class UsuariosService
 
     usuarios.forEach((unUsuario) =>
     {
-      if(unUsuario.uid == uid)
+      if (unUsuario.uid === uid)
       {
         retorno = unUsuario;
       }
@@ -76,24 +82,24 @@ export class UsuariosService
     return retorno;
   }
 
-  public getUsuarioPorId(uid: string): Observable<Usuario> 
+  public getUsuarioPorId(uid: string): Observable<Usuario>
   {
     return this.usuarioCollection.doc<any>(uid).valueChanges().pipe(
       take(1),
       map(usuario => {
         usuario.uid = uid;
-        return usuario
+        return usuario;
       })
     );
   }
-  
+
   /*public getUsuarioPorEmail(email: string, usuarios: Usuario[]): Usuario
   {
     let retorno: Usuario = null;
 
     usuarios.forEach((unUsuario) =>
     {
-      if(unUsuario.user != undefined && unUsuario.user.email == email)
+      if(unUsuario.user != undefined && unUsuario.user.email === email)
       {
         retorno = unUsuario;
       }
@@ -102,7 +108,7 @@ export class UsuariosService
     return retorno;
   }*/
 
-  /*public addUsuario(usuario: Usuario, usuarios: Usuario[], sucursales: Sucursal[]): Promise<void | DocumentReference> 
+  /*public addUsuario(usuario: Usuario, usuarios: Usuario[], sucursales: Sucursal[]): Promise<void | DocumentReference>
   {
     return this.usuarioCollection.add({
       perfil: usuario.perfil,
@@ -120,7 +126,7 @@ console.info('this.formRegistro.value.usuario', this.formRegistro.value.usuario)
 console.info('this.usuarios', this.usuarios);
               let sucursalUsuario: Sucursal = this.sucursalesService.getSucursal(this.formRegistro.value.sucursal, this.sucursales);
 console.info('sucursalUsuario', sucursalUsuario);
-              if(sucursalUsuario.usuarios == undefined)
+              if(sucursalUsuario.usuarios === undefined)
               {
                 sucursalUsuario.usuarios = [];
               }
@@ -129,13 +135,17 @@ console.info('sucursalUsuario', sucursalUsuario);
  /*     });
     });
   }*/
- 
-  public updateUsuario(usuario: Usuario): Promise<void> 
+
+  public updateUsuario(usuario: Usuario): Promise<void>
   {
-    return this.usuarioCollection.doc(usuario.uid).update({ perfil: usuario.perfil, sucursal: usuario.sucursal, movimientosUsuario: usuario.movimientosUsuario.map((obj)=> {return Object.assign({}, obj)}) });
+    return this.usuarioCollection.doc(usuario.uid).update({
+      perfil: usuario.perfil,
+      sucursal: usuario.sucursal,
+      movimientosUsuario: usuario.movimientosUsuario.map((obj) => Object.assign({}, obj))
+    });
   }
- 
-  public deleteUsuario(uid: string): Promise<void> 
+
+  public deleteUsuario(uid: string): Promise<void>
   {
     return this.usuarioCollection.doc(uid).delete();
   }
@@ -146,18 +156,18 @@ console.info('sucursalUsuario', sucursalUsuario);
     const usuarioData = {
       uid: usuario.id,
       user: this.authService.getUserData()
-    }
+    };
     return usuarioRef.set(usuarioData, {
       merge: true
     });
   }
 
-  /*public SignOut(): void 
+  /*public SignOut(): void
   {
     localStorage.removeItem('usuario');
   }*/
 
-  public getPswAdmin():string
+  public getPswAdmin(): string
   {
     return 'admin1234';
   }
@@ -169,7 +179,7 @@ console.info('sucursalUsuario', sucursalUsuario);
 
   public esAdmin(): boolean
   {
-    return this.getUsuario(this.authService.getUid()).perfil == EPerfil.Admin;
+    return this.getUsuario(this.authService.getUid()).perfil === EPerfil.Admin;
   }
 
   public getEmail(): string

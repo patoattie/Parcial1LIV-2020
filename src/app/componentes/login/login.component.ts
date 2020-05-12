@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-//import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
-//import { Subscription } from "rxjs";
+// import { Subscription } from "rxjs";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../servicios/auth.service';
 import { UsuariosService } from '../../servicios/usuarios.service';
@@ -13,31 +13,31 @@ import {MessageService} from 'primeng/api';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   /*private subscription: Subscription;
   usuario = '';
   clave= '';
   progreso: number;
-  progresoMensaje="esperando..."; 
+  progresoMensaje="esperando...";
   logeando=true;
   ProgresoDeAncho:string;*/
   public formLogin: FormGroup;
-  private enEspera: boolean; //Muestra u oculta el spinner
+  private enEspera: boolean; // Muestra u oculta el spinner
 
-  //clase="progress-bar progress-bar-info progress-bar-striped ";
+  // clase="progress-bar progress-bar-info progress-bar-striped ";
 
   constructor(
-    private miConstructor: FormBuilder, 
-    //private route: ActivatedRoute, 
-    //private router: Router, 
-    public authService: AuthService, 
+    private miConstructor: FormBuilder,
+    // private route: ActivatedRoute,
+    private router: Router,
+    public authService: AuthService,
     private usuariosService: UsuariosService,
     public messageService: MessageService
-    ) 
+    )
     {
-      //this.progreso=0;
-      //this.ProgresoDeAncho="0%";
+      // this.progreso=0;
+      // this.ProgresoDeAncho="0%";
       this.formLogin = this.miConstructor.group(
       {
         usuario: ['', Validators.compose([Validators.email, Validators.required])],
@@ -45,9 +45,21 @@ export class LoginComponent implements OnInit {
       });
     }
 
-  ngOnInit() 
+  ngOnInit()
   {
     this.enEspera = false;
+/*console.log('suscribo');
+    this.authService.loginEvent
+    .subscribe(evento => {
+      if (evento) {
+console.log('navego');
+        this.router.navigate(['Principal']);
+      }
+    });*/
+  }
+
+  ngOnDestroy() {
+    // this.authService.loginEvent.unsubscribe();
   }
 
   public getEnEspera(): boolean
@@ -57,13 +69,13 @@ export class LoginComponent implements OnInit {
 
   private mostrarMsjErrorDatos(): void
   {
-    if(this.formLogin.controls['usuario'].invalid)
+    if (this.formLogin.controls.usuario.invalid)
     {
-      if(this.formLogin.controls['usuario'].hasError('required'))
+      if (this.formLogin.controls.usuario.hasError('required'))
       {
         this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'Tenés que ingresar un E-Mail para identificarte'});
       }
-      else if(this.formLogin.controls['usuario'].hasError('email'))
+      else if (this.formLogin.controls.usuario.hasError('email'))
       {
         this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'El E-Mail que ingresaste no es válido'});
       }
@@ -73,13 +85,13 @@ export class LoginComponent implements OnInit {
       }
     }
 
-    if(this.formLogin.controls['clave'].invalid)
+    if (this.formLogin.controls.clave.invalid)
     {
-      if(this.formLogin.controls['clave'].hasError('required'))
+      if (this.formLogin.controls.clave.hasError('required'))
       {
         this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'Tenés que ingresar una Clave'});
       }
-      else if(this.formLogin.controls['clave'].hasError('minlength'))
+      else if (this.formLogin.controls.clave.hasError('minlength'))
       {
         this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'La Clave debe tener como mínimo 6 caracteres'});
       }
@@ -98,16 +110,19 @@ export class LoginComponent implements OnInit {
   public async login(): Promise<void>
   {
     let usuarioValido: boolean;
-    this.enEspera = true; //Muestro el spinner
+    this.enEspera = true; // Muestro el spinner
 
-    if(this.formLogin.valid)
+    if (this.formLogin.valid)
     {
       await this.authService.SignIn(this.formLogin.value.usuario, this.formLogin.value.clave);
-      usuarioValido = this.authService.isLoggedIn();
-      if(usuarioValido)
+      await this.authService.getFireUser();
+      // usuarioValido = this.authService.isLoggedIn();
+      usuarioValido = (await this.authService.getFireUser()).uid.length > 0;
+      if (usuarioValido)
       {
-        //this.completarUsuario('blanquear');
-       await this.usuariosService.getUsuario(this.authService.getUid());
+        // this.completarUsuario('blanquear');
+        // this.router.navigate(['Principal']);
+        // this.usuariosService.getUsuario(this.authService.getUid());
       }
       else
       {
@@ -119,7 +134,7 @@ export class LoginComponent implements OnInit {
       this.mostrarMsjErrorDatos();
     }
 
-    this.enEspera = false; //Oculto el spinner
+    this.enEspera = false; // Oculto el spinner
   }
 
   public completarUsuario(): void

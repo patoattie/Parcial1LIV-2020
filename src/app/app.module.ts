@@ -5,21 +5,21 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { AngularFireModule } from "@angular/fire";
-import { AngularFirestoreModule, SETTINGS } from "@angular/fire/firestore";
-import { AngularFireAuthModule } from "@angular/fire/auth";
-import { AngularFireStorageModule } from "@angular/fire/storage";
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule, SETTINGS } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
 import { LoginComponent } from './componentes/login/login.component';
 import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { AuthService } from './servicios/auth.service';
 import {DatePipe} from '@angular/common';
 
-//primeNG
+// primeNG
 import {ToolbarModule} from 'primeng/toolbar';
 import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
-import { InputTextModule } from "primeng/inputtext";
+import { InputTextModule } from 'primeng/inputtext';
 import {PasswordModule} from 'primeng/password';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {ListboxModule} from 'primeng/listbox';

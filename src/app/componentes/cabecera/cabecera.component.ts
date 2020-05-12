@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../servicios/auth.service';
 import { UsuariosService } from '../../servicios/usuarios.service';
-import { ProductosService } from "../../servicios/productos.service";
+import { ProductosService } from '../../servicios/productos.service';
 import { MenuItem } from 'primeng/api';
-//import { Jugador } from '../../clases/jugador';
-//import { AngularFirestore } from '@angular/fire/firestore';
+// import { Jugador } from '../../clases/jugador';
+// import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-cabecera',
@@ -12,13 +12,13 @@ import { MenuItem } from 'primeng/api';
   styleUrls: ['./cabecera.component.css']
 })
 export class CabeceraComponent implements OnInit {
-  //public jugadores: Jugador[] = [];
-  //public jugador: Jugador;
+  // public jugadores: Jugador[] = [];
+  // public jugador: Jugador;
   items: MenuItem[];
 
   constructor(public authService: AuthService, public usuariosService: UsuariosService, public productosService: ProductosService) { }
 
-  ngOnInit()  
+  ngOnInit()
   {
     this.items = [
       { label: 'Salir', icon: 'pi pi-sign-out', command: () => {this.salir(); } }
@@ -27,8 +27,8 @@ export class CabeceraComponent implements OnInit {
 
   public async salir(): Promise<void>
   {
-    //await this.productosService.SignOut();
-    //await this.usuariosService.SignOut();
+    // await this.productosService.SignOut();
+    // await this.usuariosService.SignOut();
     await this.authService.SignOut();
   }
 
@@ -36,9 +36,8 @@ export class CabeceraComponent implements OnInit {
   {
     let urlFoto: string = this.authService.getUserData().photoURL;
 
-    if(urlFoto == undefined)
+    if (urlFoto === undefined)
     {
-      //urlFoto = 'https://stackblitz.com/files/parcial2bd-stack/github/patoattie/parcial2BD-stack/master/src/assets/avatares/avatardefault.png';
       urlFoto = '../../../assets/avatares/avatardefault.png';
     }
 

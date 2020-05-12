@@ -6,7 +6,7 @@ import { AuthService } from '../servicios/auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class SecureInnerPagesGuard implements CanActivate 
+export class SecureInnerPagesGuard implements CanActivate
 {
   constructor(
     public authService: AuthService,
@@ -15,11 +15,11 @@ export class SecureInnerPagesGuard implements CanActivate
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean 
+    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean
   {
-    if(this.authService.isLoggedIn()) 
+    if (this.authService.isLoggedIn())
     {
-      console.log("Acceso no permitido");
+      console.log('Acceso no permitido');
       this.router.navigate(['Principal']);
     }
 

@@ -6,10 +6,10 @@ import { RegistroComponent } from './componentes/registro/registro.component';
 import { AbmProductoComponent } from './componentes/abm-producto/abm-producto.component';
 
 // Import canActivate guard services
-import { AuthGuard } from "./guard/auth.guard";
-import { SecureInnerPagesGuard } from "./guard/secure-inner-pages.guard";
+import { AuthGuard } from './guard/auth.guard';
+import { SecureInnerPagesGuard } from './guard/secure-inner-pages.guard';
 
-const routes: Routes = 
+const routes: Routes =
 [
   {path: '', redirectTo: 'Login', pathMatch: 'full', canActivate: [SecureInnerPagesGuard]},
   {path: 'Login' , component: LoginComponent, canActivate: [SecureInnerPagesGuard]},
