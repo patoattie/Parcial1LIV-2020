@@ -44,6 +44,7 @@ import { AbmSucursalComponent } from './componentes/abm-sucursal/abm-sucursal.co
 import { ListadoSucursalesComponent } from './componentes/listado-sucursales/listado-sucursales.component';
 import { ListadoUsuariosComponent } from './componentes/listado-usuarios/listado-usuarios.component';
 import { AbmMovimientoComponent } from './componentes/abm-movimiento/abm-movimiento.component';
+import { ErrorComponent } from './componentes/error/error.component';
 
 
 @NgModule({
@@ -60,7 +61,8 @@ import { AbmMovimientoComponent } from './componentes/abm-movimiento/abm-movimie
     AbmSucursalComponent,
     ListadoSucursalesComponent,
     ListadoUsuariosComponent,
-    AbmMovimientoComponent
+    AbmMovimientoComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
