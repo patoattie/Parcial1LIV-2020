@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -45,6 +46,7 @@ import { ListadoSucursalesComponent } from './componentes/listado-sucursales/lis
 import { ListadoUsuariosComponent } from './componentes/listado-usuarios/listado-usuarios.component';
 import { AbmMovimientoComponent } from './componentes/abm-movimiento/abm-movimiento.component';
 import { ErrorComponent } from './componentes/error/error.component';
+import { ListadoPeliculasComponent } from './componentes/listado-peliculas/listado-peliculas.component';
 
 
 @NgModule({
@@ -62,7 +64,8 @@ import { ErrorComponent } from './componentes/error/error.component';
     ListadoSucursalesComponent,
     ListadoUsuariosComponent,
     AbmMovimientoComponent,
-    ErrorComponent
+    ErrorComponent,
+    ListadoPeliculasComponent
   ],
   imports: [
     BrowserModule,
@@ -73,6 +76,7 @@ import { ErrorComponent } from './componentes/error/error.component';
     AngularFireStorageModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     ToolbarModule,
     ButtonModule,
     CardModule,
