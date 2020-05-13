@@ -158,30 +158,28 @@ export class AuthService {
   }*/
 
   // Reset Forggot password
-  public ForgotPassword(passwordResetEmail) {
+  /*public ForgotPassword(passwordResetEmail) {
     return this.afAuth.sendPasswordResetEmail(passwordResetEmail)
     .then(() => {
       window.alert('Password reset email sent, check your inbox.');
     }).catch((error) => {
       window.alert(error);
     });
-  }
+  }*/
 
   // Returns true when user is looged in and email is verified
-  /*get*/public  isLoggedIn(): boolean {
+  public isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('usuario'));
-    // const user = JSON.parse(localStorage.getItem('usuario'));
-    // return this.afAuth.currentUser !== null;
     return user !== null && user !== undefined;
   }
 
   // Sign in with Google
-  public GoogleAuth() {
-    // return this.AuthLogin(new firebase.GoogleAuthProvider());
-  }
+  /*public GoogleAuth() {
+    return this.AuthLogin(new firebase.GoogleAuthProvider());
+  }*/
 
   // Auth logic to run auth providers
-  public AuthLogin(provider) {
+  /*public AuthLogin(provider) {
     return this.afAuth.signInWithPopup(provider)
     .then((result) => {
        this.ngZone.run(() => {
@@ -191,7 +189,7 @@ export class AuthService {
     }).catch((error) => {
       window.alert(error);
     });
-  }
+  }*/
 
   /* Setting up user data when sign in with username/password,
   sign up with username/password and sign in with social auth

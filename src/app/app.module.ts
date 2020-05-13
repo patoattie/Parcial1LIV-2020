@@ -36,18 +36,10 @@ import { PrincipalComponent } from './componentes/principal/principal.component'
 import { CabeceraComponent } from './componentes/cabecera/cabecera.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
 import { UsuariosService } from './servicios/usuarios.service';
-import { AbmProductoComponent } from './componentes/abm-producto/abm-producto.component';
-import { ProductosService } from './servicios/productos.service';
-import { ListadoProductosComponent } from './componentes/listado-productos/listado-productos.component';
-import { ListadoMovimientosComponent } from './componentes/listado-movimientos/listado-movimientos.component';
-import { ListadoStockComponent } from './componentes/listado-stock/listado-stock.component';
-import { AbmSucursalComponent } from './componentes/abm-sucursal/abm-sucursal.component';
-import { ListadoSucursalesComponent } from './componentes/listado-sucursales/listado-sucursales.component';
-import { ListadoUsuariosComponent } from './componentes/listado-usuarios/listado-usuarios.component';
-import { AbmMovimientoComponent } from './componentes/abm-movimiento/abm-movimiento.component';
 import { ErrorComponent } from './componentes/error/error.component';
 import { ListadoPeliculasComponent } from './componentes/listado-peliculas/listado-peliculas.component';
 import { DetallePeliculaComponent } from './componentes/detalle-pelicula/detalle-pelicula.component';
+import { FechaPipe } from './pipes/fecha.pipe';
 
 
 @NgModule({
@@ -57,17 +49,10 @@ import { DetallePeliculaComponent } from './componentes/detalle-pelicula/detalle
     PrincipalComponent,
     CabeceraComponent,
     RegistroComponent,
-    AbmProductoComponent,
-    ListadoProductosComponent,
-    ListadoMovimientosComponent,
-    ListadoStockComponent,
-    AbmSucursalComponent,
-    ListadoSucursalesComponent,
-    ListadoUsuariosComponent,
-    AbmMovimientoComponent,
     ErrorComponent,
     ListadoPeliculasComponent,
-    DetallePeliculaComponent
+    DetallePeliculaComponent,
+    FechaPipe
   ],
   imports: [
     BrowserModule,
@@ -98,7 +83,6 @@ import { DetallePeliculaComponent } from './componentes/detalle-pelicula/detalle
     FormBuilder,
     AuthService,
     UsuariosService,
-    ProductosService,
     DatePipe,
     MessageService,
     { provide: SETTINGS, useValue: {} }

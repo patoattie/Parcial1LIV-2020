@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import {Usuario} from '../clases/usuario';
 import {AuthService} from './auth.service';
 import { EPerfil } from '../enums/eperfil.enum';
-// import { Sucursal } from '../clases/sucursal';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +46,7 @@ export class UsuariosService
   {
     let retorno: Usuario = JSON.parse(localStorage.getItem('usuario'));
 
-    if (retorno === null || retorno.perfil === undefined || retorno.sucursal === undefined)
+    if (retorno === null || retorno.perfil === undefined)
     {
       this.usuarios.forEach(arrUsuarios =>
         {
@@ -93,55 +92,10 @@ export class UsuariosService
     );
   }
 
-  /*public getUsuarioPorEmail(email: string, usuarios: Usuario[]): Usuario
-  {
-    let retorno: Usuario = null;
-
-    usuarios.forEach((unUsuario) =>
-    {
-      if(unUsuario.user != undefined && unUsuario.user.email === email)
-      {
-        retorno = unUsuario;
-      }
-    });
-
-    return retorno;
-  }*/
-
-  /*public addUsuario(usuario: Usuario, usuarios: Usuario[], sucursales: Sucursal[]): Promise<void | DocumentReference>
-  {
-    return this.usuarioCollection.add({
-      perfil: usuario.perfil,
-      sucursal: usuario.sucursal
-    })
-    .then((doc) =>
-    {
-      this.SetData(doc)
-      .then(() =>
-      {
-console.log('Alta');*/
-/*let usuarioNuevo: Usuario = this.getUsuarioPorEmail(this.formRegistro.value.usuario, this.usuarios);
-console.info('usuarioNuevo', usuarioNuevo);
-console.info('this.formRegistro.value.usuario', this.formRegistro.value.usuario);
-console.info('this.usuarios', this.usuarios);
-              let sucursalUsuario: Sucursal = this.sucursalesService.getSucursal(this.formRegistro.value.sucursal, this.sucursales);
-console.info('sucursalUsuario', sucursalUsuario);
-              if(sucursalUsuario.usuarios === undefined)
-              {
-                sucursalUsuario.usuarios = [];
-              }
-              sucursalUsuario.usuarios.push(usuarioNuevo);
-              this.sucursalesService.updateSucursal(sucursalUsuario);*/
- /*     });
-    });
-  }*/
-
   public updateUsuario(usuario: Usuario): Promise<void>
   {
     return this.usuarioCollection.doc(usuario.uid).update({
-      perfil: usuario.perfil,
-      sucursal: usuario.sucursal,
-      movimientosUsuario: usuario.movimientosUsuario.map((obj) => Object.assign({}, obj))
+      perfil: usuario.perfil
     });
   }
 
@@ -162,11 +116,6 @@ console.info('sucursalUsuario', sucursalUsuario);
     });
   }
 
-  /*public SignOut(): void
-  {
-    localStorage.removeItem('usuario');
-  }*/
-
   public getPswAdmin(): string
   {
     return 'admin1234';
@@ -185,10 +134,5 @@ console.info('sucursalUsuario', sucursalUsuario);
   public getEmail(): string
   {
     return this.authService.getEmail();
-  }
-
-  public getSucursal(): string
-  {
-    return this.getUsuario(this.authService.getUid()).sucursal;
   }
 }

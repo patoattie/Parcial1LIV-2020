@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../servicios/auth.service';
 import { MenuItem } from 'primeng/api';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Peliculas } from '../../clases/peliculas';
 import { PeliculasService } from '../../servicios/peliculas.service';
 
@@ -10,15 +10,14 @@ import { PeliculasService } from '../../servicios/peliculas.service';
   templateUrl: './principal.component.html',
   styleUrls: ['./principal.component.css']
 })
-export class PrincipalComponent implements OnInit, OnDestroy {
+export class PrincipalComponent implements OnInit {
  public status: any = {
     isFirstOpen: true,
     isFirstDisabled: false
   };
-  public peliculas: Peliculas;
+  public peliculas: Observable<Peliculas>;
   public items: MenuItem[];
   public listaPeliculas = true;
-  private subscriptions: Subscription[] = [];
   public pagina = 1;
 
   constructor(
@@ -27,38 +26,14 @@ export class PrincipalComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
-    this.subscriptions.push(
-      this.peliculasService.getPeliculas(this.pagina)
-      .subscribe((peliculas) =>
-      {
-// console.log(peliculas);
-        this.peliculas = peliculas;
-        // Elimina los duplicados que se generan al suscribir después de desloguearse, no lo pude resolver de una forma más elegante
-        this.peliculas.results = this.peliculas.results.filter((test, index, array) =>
-          index === array.findIndex((findTest) =>
-           findTest.id === test.id
-          )
-        );
-      })
-    );
+    this.peliculas = this.peliculasService.getPeliculas(this.pagina);
 
     this.items = [
-      {label: 'Peliculas', command: () => {this.mostrarListaProductos(); }},
+      {label: 'Peliculas', command: () => {this.mostrarListaPeliculas(); }},
     ];
   }
 
-  ngOnDestroy()
-  {
-    this.subscriptions.forEach((unaSubscription) =>
-    {
-      unaSubscription.unsubscribe();
-    });
-    /*this.usuarios = null;
-    this.sucursales = null;
-    this.peliculas = null;*/
-  }
-
-  private mostrarListaProductos(): void
+  private mostrarListaPeliculas(): void
   {
     this.listaPeliculas = true;
   }

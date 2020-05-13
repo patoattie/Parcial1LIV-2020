@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './componentes/login/login.component';
 import { PrincipalComponent } from './componentes/principal/principal.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
-import { AbmProductoComponent } from './componentes/abm-producto/abm-producto.component';
 import { ErrorComponent } from './componentes/error/error.component';
 
 // Import canActivate guard services
@@ -16,9 +15,7 @@ const routes: Routes =
   {path: 'Login' , component: LoginComponent, canActivate: [SecureInnerPagesGuard]},
   {path: 'Registro' , component: RegistroComponent, canActivate: [SecureInnerPagesGuard]},
   {path: 'Principal' , component: PrincipalComponent, canActivate: [AuthGuard]},
-  {path: 'Abm-Producto' , component: AbmProductoComponent, canActivate: [AuthGuard]},
   {path: '**' , component: ErrorComponent}
-  /*{path: 'error' , component: LoginComponent}*/
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

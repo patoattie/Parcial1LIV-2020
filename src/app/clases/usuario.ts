@@ -1,26 +1,20 @@
 import {EPerfil} from '../enums/eperfil.enum';
-//import {ESucursal} from '../enums/esucursal.enum';
-import { User } from "./user";
-import { Movimiento } from './movimiento';
+import { User } from './user';
 
 export class Usuario extends User
 {
   public perfil: EPerfil;
-  public sucursal: string;
-  public movimientosUsuario: Movimiento[];
 
   constructor(
-    perfil?: EPerfil, 
-    sucursal?: string,
+    perfil?: EPerfil,
     user?: User,
     uid?: string,
     email?: string,
     displayName?: string,
     photoURL?: string,
-    emailVerified?: boolean,
-    movimientosUsuario?: Movimiento[])
+    emailVerified?: boolean)
   {
-    if(user == null)
+    if (user == null)
     {
       super(uid, email, displayName, photoURL, emailVerified);
     }
@@ -28,9 +22,7 @@ export class Usuario extends User
     {
       super(user.uid, user.email, user.displayName, user.photoURL, user.emailVerified);
     }
-    
+
     this.perfil = perfil;
-    this.sucursal = sucursal;
-    this.movimientosUsuario = movimientosUsuario;
-	}
+  }
 }

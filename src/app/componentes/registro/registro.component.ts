@@ -1,20 +1,15 @@
 import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
-//import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-//para poder hacer las validaciones
 import { Validators, FormBuilder, FormGroup} from '@angular/forms';
 import { AuthService } from '../../servicios/auth.service';
 import { Location } from '@angular/common';
 import { UsuariosService } from '../../servicios/usuarios.service';
 import { Usuario } from '../../clases/usuario';
-//import { ESucursal } from '../../enums/esucursal.enum';
 import { EPerfil } from '../../enums/eperfil.enum';
-import { SucursalesService } from "../../servicios/sucursales.service";
-import { Sucursal } from "../../clases/sucursal";
 
 import {SelectItem} from 'primeng/api';
 import {MessageService} from 'primeng/api';
 
-import * as $ from "jquery";
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-registro',
@@ -23,22 +18,17 @@ import * as $ from "jquery";
 })
 export class RegistroComponent implements OnInit {
   public formRegistro: FormGroup;
-  private enEspera: boolean; //Muestra u oculta el spinner
-  //public sucursales: SelectItem[];
+  private enEspera: boolean; // Muestra u oculta el spinner
   public perfiles: SelectItem[];
-  @Input() sucursales: Sucursal[];
   @Input() usuario: Usuario;
-  //private usuarios: Usuario[];
   @Input() usuarios: Usuario[];
-  public listaSucursales: any[] = [];
 
   constructor(
-    private miConstructor: FormBuilder, 
-    public authService: AuthService, 
+    private miConstructor: FormBuilder,
+    public authService: AuthService,
     private location: Location,
     private cd: ChangeDetectorRef,
     public usuariosService: UsuariosService,
-    public sucursalesService: SucursalesService,
     public messageService: MessageService
     )
   {
@@ -47,17 +37,10 @@ export class RegistroComponent implements OnInit {
       usuario: ['', Validators.compose([Validators.email, Validators.required])],
       clave: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
       confirmaClave: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
-      sucursal: ['', Validators.compose([])],
       perfil: ['', Validators.compose([Validators.required])],
       imagen: ['', Validators.compose([])],
       habilitaAdmin: ['', Validators.compose([])]
     });
-
-    /*this.sucursales = [
-      {label: ESucursal.Almagro, value: ESucursal.Almagro},
-      {label: ESucursal.Caballito, value: ESucursal.Caballito},
-      {label: ESucursal.Flores, value: ESucursal.Flores}
-    ];*/
 
     this.perfiles = [
       {label: EPerfil.Operador, value: EPerfil.Operador},
@@ -65,39 +48,38 @@ export class RegistroComponent implements OnInit {
     ];
   }
 
-  onFileChange(event) 
+  onFileChange(event)
   {
     const reader = new FileReader();
- 
-    if(event.target.files && event.target.files.length) 
+
+    if (event.target.files && event.target.files.length)
     {
       const [file] = event.target.files;
       reader.readAsDataURL(file);
-  
-      reader.onload = () => 
+
+      reader.onload = () =>
       {
         this.formRegistro.patchValue(
         {
           file: reader.result
         });
-      
+
         // need to run CD since file load runs outside of zone
         this.cd.markForCheck();
       };
     }
   }
 
-  ngOnInit() 
+  ngOnInit()
   {
     this.enEspera = false;
 
-    if(this.usuario != null)
+    if (this.usuario != null)
     {
       this.formRegistro.setValue({
         usuario: this.usuario.email,
-        clave: '', 
-        confirmaClave: '', 
-        sucursal: this.usuario.sucursal,
+        clave: '',
+        confirmaClave: '',
         perfil: this.usuario.perfil,
         imagen: '',
         habilitaAdmin: ''
@@ -105,30 +87,19 @@ export class RegistroComponent implements OnInit {
     }
     else
     {
-      this.formRegistro.setValue({usuario: '', clave: '', confirmaClave: '', sucursal: '', perfil: '', imagen: '', habilitaAdmin: ''});
+      this.formRegistro.setValue({usuario: '', clave: '', confirmaClave: '', perfil: '', imagen: '', habilitaAdmin: ''});
     }
-
-    if(this.sucursales != undefined)
-    {
-      this.sucursales.forEach((unaSucursal) =>
-      {
-        this.listaSucursales.push({label: unaSucursal.sucursal, value: unaSucursal.sucursal});
-      });
-    }
-
-    //this.usuariosService.getUsuarios()
-    //.subscribe(usuarios => this.usuarios = usuarios);
   }
 
   private mostrarMsjErrorDatos(): void
   {
-    if(this.formRegistro.controls['usuario'].invalid)
+    if (this.formRegistro.controls.usuario.invalid)
     {
-      if(this.formRegistro.controls['usuario'].hasError('required'))
+      if (this.formRegistro.controls.usuario.hasError('required'))
       {
         this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'Tenés que ingresar un E-Mail para identificarte'});
       }
-      else if(this.formRegistro.controls['usuario'].hasError('email'))
+      else if (this.formRegistro.controls.usuario.hasError('email'))
       {
         this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'El E-Mail que ingresaste no es válido'});
       }
@@ -138,13 +109,13 @@ export class RegistroComponent implements OnInit {
       }
     }
 
-    if(this.formRegistro.controls['clave'].invalid)
+    if (this.formRegistro.controls.clave.invalid)
     {
-      if(this.formRegistro.controls['clave'].hasError('required'))
+      if (this.formRegistro.controls.clave.hasError('required'))
       {
         this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'Tenés que ingresar una Clave'});
       }
-      else if(this.formRegistro.controls['clave'].hasError('minlength'))
+      else if (this.formRegistro.controls.clave.hasError('minlength'))
       {
         this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'La Clave debe tener como mínimo 6 caracteres'});
       }
@@ -154,12 +125,7 @@ export class RegistroComponent implements OnInit {
       }
     }
 
-    /*if(this.formRegistro.controls['sucursal'].invalid)
-    {
-      this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'Tenés que ingresar una Sucursal'});
-    }*/
-    
-    if(this.formRegistro.controls['perfil'].invalid)
+    if (this.formRegistro.controls.perfil.invalid)
     {
       this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'Tenés que ingresar un Perfil'});
     }
@@ -192,33 +158,33 @@ export class RegistroComponent implements OnInit {
 
   public eligeAdmin(): boolean
   {
-    return this.formRegistro.value.perfil == EPerfil.Admin;
+    return this.formRegistro.value.perfil === EPerfil.Admin;
   }
 
   public async registrar(): Promise<void>
   {
     let usuarioValido: boolean;
-    this.enEspera = true; //Muestro el spinner
+    this.enEspera = true; // Muestro el spinner
 
-    if(this.formRegistro.valid)
+    if (this.formRegistro.valid)
     {
-      if(this.formRegistro.value.clave === this.formRegistro.value.confirmaClave)
+      if (this.formRegistro.value.clave === this.formRegistro.value.confirmaClave)
       {
-        if(this.formRegistro.value.perfil == EPerfil.Admin && this.formRegistro.value.habilitaAdmin != this.usuariosService.getPswAdmin())
+        if (this.formRegistro.value.perfil === EPerfil.Admin
+          && this.formRegistro.value.habilitaAdmin !== this.usuariosService.getPswAdmin())
         {
           this.mostrarMsjErrorAdmin();
         }
         else
         {
-          let file = (<HTMLInputElement>document.getElementById("img-file")).files[0];
+          const file = ( document.getElementById('img-file') as HTMLInputElement).files[0];
 
           await this.authService.SignUp(this.formRegistro.value.usuario, this.formRegistro.value.clave, null, file);
 
           usuarioValido = this.authService.isLoggedIn();
-          if(usuarioValido)
+          if (usuarioValido)
           {
-            let usuarioNuevo: Usuario = new Usuario(this.formRegistro.value.perfil, '', this.authService.getUserData());
-            //await this.usuariosService.addUsuario(new Usuario(this.formRegistro.value.perfil, this.formRegistro.value.sucursal), this.usuarios, this.sucursales);
+            const usuarioNuevo: Usuario = new Usuario(this.formRegistro.value.perfil, this.authService.getUserData());
             await this.usuariosService.updateUsuario(usuarioNuevo);
             this.mostrarMsjOk();
           }
@@ -228,7 +194,7 @@ export class RegistroComponent implements OnInit {
           }
         }
       }
-      else //El usuario no confirmó bien la clave
+      else // El usuario no confirmó bien la clave
       {
         this.mostrarMsjErrorClave();
       }
@@ -238,65 +204,31 @@ export class RegistroComponent implements OnInit {
       this.mostrarMsjErrorDatos();
     }
 
-    this.enEspera = false; //Oculto el spinner
+    this.enEspera = false; // Oculto el spinner
   }
 
   public async actualizar(): Promise<void>
   {
-    if(this.usuario != null)
+    if (this.usuario != null)
     {
-      let sucursalAnterior: Sucursal = this.sucursalesService.getSucursal(this.usuario.sucursal, this.sucursales);
-      let usuarioAnterior: Usuario = new Usuario(this.usuario.perfil, this.usuario.sucursal, null, this.usuario.uid, this.usuario.email, this.usuario.displayName, this.usuario.photoURL, this.usuario.emailVerified);
-      let sucursalNueva: Sucursal;
+      const usuarioAnterior: Usuario = new Usuario(
+        this.usuario.perfil,
+        null,
+        this.usuario.uid,
+        this.usuario.email,
+        this.usuario.displayName,
+        this.usuario.photoURL,
+        this.usuario.emailVerified
+      );
       this.usuario.perfil = this.formRegistro.value.perfil;
-      this.usuario.sucursal = this.formRegistro.value.sucursal;
       await this.usuariosService.updateUsuario(this.usuario);
-
-      //Remuevo al usuario de la sucursal donde estaba antes
-      if(sucursalAnterior != null && sucursalAnterior.sucursal != "")
-      {
-        let index: number = -1;
-        sucursalAnterior.usuariosSucursal.forEach((unUsuario, indice) => 
-        {
-          if(unUsuario.uid == usuarioAnterior.uid)
-          {
-            index = indice;
-          }
-        });
-
-        if (index > -1) 
-        {
-          sucursalAnterior.usuariosSucursal.splice(index, 1);
-        }
-        await this.sucursalesService.updateSucursal(sucursalAnterior);
-      }
-
-      //Asigno al usuario a la nueva sucursal
-      if(this.usuario.sucursal != "")
-      {
-        sucursalNueva = this.sucursalesService.getSucursal(this.usuario.sucursal, this.sucursales);
-
-        if(sucursalNueva.usuariosSucursal == undefined)
-        {
-          sucursalNueva.usuariosSucursal = [];
-        }
-
-        sucursalNueva.usuariosSucursal.push(this.usuario);
-        await this.sucursalesService.updateSucursal(sucursalNueva);
-      }
 
       this.mostrarMsjOk();
     }
   }
 
-  public goBack(): void 
+  public goBack(): void
   {
     this.location.back();
   }
-
-  /*public mostrarLog(): void
-  {
-    //console.log(this.formRegistro.value.sucursal);
-    console.log(this.sucursalesService.getSucursal(this.formRegistro.value.sucursal, this.sucursales));
-  }*/
 }
