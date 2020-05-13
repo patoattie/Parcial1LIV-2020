@@ -47,6 +47,7 @@ import { ListadoUsuariosComponent } from './componentes/listado-usuarios/listado
 import { AbmMovimientoComponent } from './componentes/abm-movimiento/abm-movimiento.component';
 import { ErrorComponent } from './componentes/error/error.component';
 import { ListadoPeliculasComponent } from './componentes/listado-peliculas/listado-peliculas.component';
+import { DetallePeliculaComponent } from './componentes/detalle-pelicula/detalle-pelicula.component';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { ListadoPeliculasComponent } from './componentes/listado-peliculas/lista
     ListadoUsuariosComponent,
     AbmMovimientoComponent,
     ErrorComponent,
-    ListadoPeliculasComponent
+    ListadoPeliculasComponent,
+    DetallePeliculaComponent
   ],
   imports: [
     BrowserModule,
