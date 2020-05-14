@@ -10,12 +10,14 @@
     <ng-template pTemplate="header" let-columns>
         <tr>
           <th style="width: 5%;"></th>
+          <th style="width: 5%;"></th>
           <th *ngFor="let col of columns" [pSortableColumn]="col.field" [pSortableColumnDisabled]="col.field === 'backdrop_path'">
             {{col.header}}
             <p-sortIcon *ngIf="col.field !== 'backdrop_path'" [field]="col.field"></p-sortIcon>
           </th>
         </tr>
         <tr>
+          <th style="width: 5%;"></th>
           <th style="width: 5%;"></th>
           <th *ngFor="let col of columns">
             <input *ngIf="col.field !== 'backdrop_path'" style="width: 100%;" pInputText type="text" (input)="dt.filter($event.target.value, col.field, 'contains')">
@@ -26,6 +28,9 @@
       <tr>
         <td style="width: 5%;">
           <button type="button" #btn pButton icon="pi pi-search" (click)="muestraDetalle(rowData)" style="margin-left: 2px;"></button>
+        </td>
+        <td style="width: 5%;">
+          <button type="button" #btn pButton icon="pi pi-star" (click)="guardarFav(rowData)" style="margin-left: 2px;"></button>
         </td>
         <td *ngFor="let col of columns">
           <p *ngIf="col.field !== colImg && col.field !== colDate && col.field !== colLang">{{rowData[col.field]}}</p>

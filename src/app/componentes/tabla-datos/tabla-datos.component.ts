@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConfigService } from '../../servicios/config.service';
+import { FavoritosService } from '../../servicios/favoritos.service';
 
 @Component({
   selector: 'app-tabla-datos',
@@ -16,7 +17,7 @@ export class TablaDatosComponent implements OnInit {
   @Input() colLang: string;
   @Output() detalleEvent = new EventEmitter<any>();
 
-  constructor(private config: ConfigService) { }
+  constructor(private config: ConfigService, private favoritos: FavoritosService) { }
 
   ngOnInit(): void { }
 
@@ -26,5 +27,9 @@ export class TablaDatosComponent implements OnInit {
 
   public getUrlImg(img: string): string {
     return this.config.getUrlImg(img, 500);
+  }
+
+  public guardarFav(dato: any): void {
+    this.favoritos.guardar(dato);
   }
 }
