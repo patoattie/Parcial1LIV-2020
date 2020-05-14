@@ -12,6 +12,7 @@ export class HttpService {
   ) { }
 
   public peticionGet(url: string, params: any): Observable<any> {
+console.log(url);
     const paramsHttp = {params};
     return this.http.get(url, paramsHttp);
   }
