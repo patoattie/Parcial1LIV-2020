@@ -13,7 +13,6 @@ export class HttpService {
 
   public peticionGet(url: string, params: any): Observable<any> {
     const paramsHttp = {params};
-    return this.http.get(url, {params: paramsHttp, headers: {
-      'Content-Security-Policy': 'upgrade-insecure-requests'}});
+    return this.http.get(url, {params: paramsHttp});
   }
 }
