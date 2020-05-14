@@ -1,4 +1,4 @@
-export class Teve {
+export class Programa {
     public popularity: number;
     public vote_count: number;
     public poster_path: string;

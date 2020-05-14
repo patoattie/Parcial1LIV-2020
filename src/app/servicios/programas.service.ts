@@ -5,23 +5,23 @@ import { HttpService } from './http.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PeliculasService {
+export class ProgramasService {
 
   constructor(
     private config: ConfigService,
     private http: HttpService
   ) { }
 
-  public getPeliculas(pag: number) {
-    return this.http.peticionGet(this.config.getEndPointPelis(), this.armarParams(pag));
+  public getProgramas(pag: number) {
+    return this.http.peticionGet(this.config.getEndPointProgramas(), this.armarParams(pag));
   }
 
-  public getPelicula(idPeli: string) {
-    return this.http.peticionGet(this.config.getEndPointUnaPeli(idPeli), this.armarParamsUnaPeli());
+  public getPrograma(idPrograma: string) {
+    return this.http.peticionGet(this.config.getEndPointUnPrograma(idPrograma), this.armarParamsUnPrograma());
   }
 
   private armarParams(pag: number) {
-    const orden = this.config.getOrdenPelis();
+    const orden = this.config.getOrdenProgramas();
     const clave = this.config.getClaveApi();
     const idioma = this.config.getIdioma();
     const pagina = this.config.getPagina(pag);
@@ -36,7 +36,7 @@ export class PeliculasService {
     return retorno;
   }
 
-  private armarParamsUnaPeli() {
+  private armarParamsUnPrograma() {
     const clave = this.config.getClaveApi();
     const idioma = this.config.getIdioma();
 

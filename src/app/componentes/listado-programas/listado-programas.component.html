@@ -1,4 +1,4 @@
-<p-table #dt [columns]="cols" [value]="(listaPeliculas | async).results" sortMode="multiple" [paginator]="true" [rows]="10">
+<p-table #dt [columns]="cols" [value]="(listaProgramas | async).results" sortMode="multiple" [paginator]="true" [rows]="10">
     <ng-template pTemplate="caption">
       <p-toolbar>
         <div class="ui-toolbar-group-right">        
@@ -28,8 +28,8 @@
           <button type="button" #btn pButton icon="pi pi-search" (click)="muestraDetalle(rowData)" style="margin-left: 2px;"></button>
         </td>
         <td *ngFor="let col of columns">
-          <p *ngIf="col.field !== 'backdrop_path' && col.field !== 'release_date' && col.field !== 'acciones'">{{rowData[col.field]}}</p>
-          <p *ngIf="col.field === 'release_date'">{{rowData[col.field] | fecha}}</p>
+          <p *ngIf="col.field !== 'backdrop_path' && col.field !== 'first_air_date'">{{rowData[col.field]}}</p>
+          <p *ngIf="col.field === 'first_air_date'">{{rowData[col.field] | fecha}}</p>
           <img *ngIf="col.field === 'backdrop_path'" src="{{getUrlImg(rowData[col.field])}}" alt="" style="width: 50%;">
         </td>
       </tr>

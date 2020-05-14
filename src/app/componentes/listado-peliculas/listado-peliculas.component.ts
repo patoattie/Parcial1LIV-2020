@@ -14,7 +14,6 @@ export class ListadoPeliculasComponent implements OnInit {
   public listaPeliculas: Observable<Peliculas>;
   public peliculaSeleccionada: Pelicula = null;
   public cols: any[];
-  public verDetalle = false;
   public pagina = 1;
 
   constructor(
@@ -37,7 +36,6 @@ export class ListadoPeliculasComponent implements OnInit {
 
   public muestraDetalle(unaPelicula: Pelicula): void {
     if (unaPelicula) {
-      // this.peliculaSeleccionada = unaPelicula;
       this.router.navigate(['../Pelicula', unaPelicula.id.toString()], {relativeTo: this.route});
     }
   }

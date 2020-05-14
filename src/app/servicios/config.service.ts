@@ -7,12 +7,18 @@ export class ConfigService {
   private endPoint = 'https://api.themoviedb.org/3/';
   private urlImg = 'https://image.tmdb.org/t/p/';
   private pelis = 'discover/movie/';
+  private programasTV = 'discover/tv/';
   private unaPeli = 'movie/';
+  private unPrograma = 'tv/';
   private claveApi = {
     clave: 'api_key',
     valor: '73f9841'.concat('cbba42072').concat('a2e12038').concat('92c07179')
   };
   private ordenPelis = {
+    clave: 'sort_by',
+    valor: 'popularity.desc'
+  };
+  private ordenProgramas = {
     clave: 'sort_by',
     valor: 'popularity.desc'
   };
@@ -32,8 +38,16 @@ export class ConfigService {
     return this.endPoint.concat(this.pelis);
   }
 
+  public getEndPointProgramas() {
+    return this.endPoint.concat(this.programasTV);
+  }
+
   public getEndPointUnaPeli(idPeli: string) {
     return this.endPoint.concat(this.unaPeli).concat(idPeli);
+  }
+
+  public getEndPointUnPrograma(idPrograma: string) {
+    return this.endPoint.concat(this.unPrograma).concat(idPrograma);
   }
 
   public getClaveApi() {
@@ -42,6 +56,10 @@ export class ConfigService {
 
   public getOrdenPelis() {
     return this.ordenPelis;
+  }
+
+  public getOrdenProgramas() {
+    return this.ordenProgramas;
   }
 
   public getIdioma() {

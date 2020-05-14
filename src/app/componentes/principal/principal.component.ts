@@ -23,6 +23,7 @@ export class PrincipalComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {label: 'Peliculas', command: () => {this.mostrarListaPeliculas(); }},
+      {label: 'TV', command: () => {this.mostrarListaProgramas(); }},
     ];
 
     this.mostrarListaPeliculas();
@@ -30,5 +31,9 @@ export class PrincipalComponent implements OnInit {
 
   private mostrarListaPeliculas(): void {
     this.router.navigate(['Peliculas'], {relativeTo: this.route});
+  }
+
+  private mostrarListaProgramas(): void {
+    this.router.navigate(['Programas'], {relativeTo: this.route});
   }
 }

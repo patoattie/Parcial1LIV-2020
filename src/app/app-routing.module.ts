@@ -6,6 +6,8 @@ import { RegistroComponent } from './componentes/registro/registro.component';
 import { ErrorComponent } from './componentes/error/error.component';
 import { ListadoPeliculasComponent } from './componentes/listado-peliculas/listado-peliculas.component';
 import { DetallePeliculaComponent } from './componentes/detalle-pelicula/detalle-pelicula.component';
+import { DetalleProgramaComponent } from './componentes/detalle-programa/detalle-programa.component';
+import { ListadoProgramasComponent } from './componentes/listado-programas/listado-programas.component';
 
 // Import canActivate guard services
 import { AuthGuard } from './guard/auth.guard';
@@ -42,6 +44,16 @@ const routes: Routes =
       {
         path: 'Pelicula/:id',
         component: DetallePeliculaComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'Programas',
+        component: ListadoProgramasComponent,
+        canActivate: [AuthGuard]
+      },
+      {
+        path: 'Programa/:id',
+        component: DetalleProgramaComponent,
         canActivate: [AuthGuard]
       }
     ]

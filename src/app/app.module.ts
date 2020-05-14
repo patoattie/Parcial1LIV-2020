@@ -40,6 +40,8 @@ import { ErrorComponent } from './componentes/error/error.component';
 import { ListadoPeliculasComponent } from './componentes/listado-peliculas/listado-peliculas.component';
 import { DetallePeliculaComponent } from './componentes/detalle-pelicula/detalle-pelicula.component';
 import { FechaPipe } from './pipes/fecha.pipe';
+import { DetalleProgramaComponent } from './componentes/detalle-programa/detalle-programa.component';
+import { ListadoProgramasComponent } from './componentes/listado-programas/listado-programas.component';
 
 
 @NgModule({
@@ -52,7 +54,9 @@ import { FechaPipe } from './pipes/fecha.pipe';
     ErrorComponent,
     ListadoPeliculasComponent,
     DetallePeliculaComponent,
-    FechaPipe
+    FechaPipe,
+    DetalleProgramaComponent,
+    ListadoProgramasComponent
   ],
   imports: [
     BrowserModule,
