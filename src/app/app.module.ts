@@ -42,6 +42,9 @@ import { DetallePeliculaComponent } from './componentes/detalle-pelicula/detalle
 import { FechaPipe } from './pipes/fecha.pipe';
 import { DetalleProgramaComponent } from './componentes/detalle-programa/detalle-programa.component';
 import { ListadoProgramasComponent } from './componentes/listado-programas/listado-programas.component';
+import { TablaDatosComponent } from './componentes/tabla-datos/tabla-datos.component';
+import { IdiomaPipe } from './pipes/idioma.pipe';
+import { DetalleComponent } from './componentes/detalle/detalle.component';
 
 
 @NgModule({
@@ -56,7 +59,10 @@ import { ListadoProgramasComponent } from './componentes/listado-programas/lista
     DetallePeliculaComponent,
     FechaPipe,
     DetalleProgramaComponent,
-    ListadoProgramasComponent
+    ListadoProgramasComponent,
+    TablaDatosComponent,
+    IdiomaPipe,
+    DetalleComponent
   ],
   imports: [
     BrowserModule,

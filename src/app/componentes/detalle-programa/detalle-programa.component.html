@@ -1,9 +1,1 @@
-<p-card [style]="{width: '50%', marginLeft: 'auto', marginRight: 'auto'}" header="{{programa.name}}" subheader="{{programa.original_name}}" styleClass="ui-card-shadow">
-    <p-header>
-        <img src="{{getUrlImg(programa.poster_path)}}">
-    </p-header>
-    {{ programa.overview }}
-    <p-footer>
-        <button (click)="cerrarCard()" pButton type="button" label="Cerrar" icon="pi pi-times" class="ui-button-secondary"></button>
-    </p-footer>
-</p-card>
+<app-detalle [dato]="programa" (cerrarEvent)="cerrarCard()"></app-detalle>

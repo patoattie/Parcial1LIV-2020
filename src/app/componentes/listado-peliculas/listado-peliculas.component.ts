@@ -12,7 +12,6 @@ import { Peliculas } from '../../clases/peliculas';
 })
 export class ListadoPeliculasComponent implements OnInit {
   public listaPeliculas: Observable<Peliculas>;
-  public peliculaSeleccionada: Pelicula = null;
   public cols: any[];
   public pagina = 1;
 

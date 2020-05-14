@@ -1,9 +1,1 @@
-<p-card [style]="{width: '50%', marginLeft: 'auto', marginRight: 'auto'}" header="{{pelicula.title}}" subheader="{{pelicula.original_title}}" styleClass="ui-card-shadow">
-    <p-header>
-        <img src="{{getUrlImg(pelicula.poster_path)}}">
-    </p-header>
-    {{ pelicula.overview }}
-    <p-footer>
-        <button (click)="cerrarCard()" pButton type="button" label="Cerrar" icon="pi pi-times" class="ui-button-secondary"></button>
-    </p-footer>
-</p-card>
+<app-detalle [dato]="pelicula" (cerrarEvent)="cerrarCard()"></app-detalle>
