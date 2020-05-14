@@ -17,7 +17,11 @@ export class PeliculasService {
     return this.http.peticionGet(this.config.getEndPointPelis(), this.armarParams(pag));
   }
 
-  public armarParams(pag: number) {
+  public getPelicula(idPeli: string) {
+    return this.http.peticionGet(this.config.getEndPointUnaPeli(idPeli), this.armarParamsUnaPeli());
+  }
+
+  private armarParams(pag: number) {
     const orden = this.config.getOrdenPelis();
     const clave = this.config.getClaveApi();
     const idioma = this.config.getIdioma();
@@ -28,6 +32,18 @@ export class PeliculasService {
       [clave.clave]: clave.valor,
       [idioma.clave]: idioma.valor,
       [pagina.clave]: pagina.valor
+    };
+
+    return retorno;
+  }
+
+  private armarParamsUnaPeli() {
+    const clave = this.config.getClaveApi();
+    const idioma = this.config.getIdioma();
+
+    const retorno = {
+      [clave.clave]: clave.valor,
+      [idioma.clave]: idioma.valor
     };
 
     return retorno;

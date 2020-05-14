@@ -109,25 +109,20 @@ console.log('navego');
 
   public async login(): Promise<void>
   {
-    let usuarioValido: boolean;
     this.enEspera = true; // Muestro el spinner
 
     if (this.formLogin.valid)
     {
       await this.authService.SignIn(this.formLogin.value.usuario, this.formLogin.value.clave);
-      await this.authService.getFireUser();
+      // await this.authService.getFireUser();
       // usuarioValido = this.authService.isLoggedIn();
-      usuarioValido = (await this.authService.getFireUser()).uid.length > 0;
-      if (usuarioValido)
-      {
-        // this.completarUsuario('blanquear');
-        // this.router.navigate(['Principal']);
-        // this.usuariosService.getUsuario(this.authService.getUid());
-      }
-      else
-      {
-        this.mostrarMsjErrorAuth();
-      }
+      // usuarioValido = (await this.authService.getFireUser()).uid.length > 0;
+      this.authService.getFireUser()
+      .then(usuarioLogueado => {
+        if (!usuarioLogueado) {
+          this.mostrarMsjErrorAuth();
+        }
+      });
     }
     else
     {
@@ -137,13 +132,8 @@ console.log('navego');
     this.enEspera = false; // Oculto el spinner
   }
 
-  public completarUsuario(): void
+  public completarUsuario(datos: any): void
   {
-    this.formLogin.setValue({usuario: 'pepe@pepe.com', clave: '123456'});
-  }
-
-  public completarAdmin(): void
-  {
-    this.formLogin.setValue({usuario: 'admin@admin.com', clave: '111111'});
+    this.formLogin.setValue(datos);
   }
 }

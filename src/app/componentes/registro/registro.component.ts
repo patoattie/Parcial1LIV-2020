@@ -4,7 +4,6 @@ import { AuthService } from '../../servicios/auth.service';
 import { Location } from '@angular/common';
 import { UsuariosService } from '../../servicios/usuarios.service';
 import { Usuario } from '../../clases/usuario';
-import { EPerfil } from '../../enums/eperfil.enum';
 
 import {SelectItem} from 'primeng/api';
 import {MessageService} from 'primeng/api';
@@ -19,7 +18,6 @@ import * as $ from 'jquery';
 export class RegistroComponent implements OnInit {
   public formRegistro: FormGroup;
   private enEspera: boolean; // Muestra u oculta el spinner
-  public perfiles: SelectItem[];
   @Input() usuario: Usuario;
   @Input() usuarios: Usuario[];
 
@@ -35,17 +33,12 @@ export class RegistroComponent implements OnInit {
     this.formRegistro = this.miConstructor.group(
     {
       usuario: ['', Validators.compose([Validators.email, Validators.required])],
+      nombre: ['', Validators.compose([Validators.required])],
       clave: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
       confirmaClave: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
-      perfil: ['', Validators.compose([Validators.required])],
       imagen: ['', Validators.compose([])],
       habilitaAdmin: ['', Validators.compose([])]
     });
-
-    this.perfiles = [
-      {label: EPerfil.Operador, value: EPerfil.Operador},
-      {label: EPerfil.Admin, value: EPerfil.Admin}
-    ];
   }
 
   onFileChange(event)
@@ -78,16 +71,16 @@ export class RegistroComponent implements OnInit {
     {
       this.formRegistro.setValue({
         usuario: this.usuario.email,
+        nombre: this.usuario.displayName,
         clave: '',
         confirmaClave: '',
-        perfil: this.usuario.perfil,
         imagen: '',
         habilitaAdmin: ''
       });
     }
     else
     {
-      this.formRegistro.setValue({usuario: '', clave: '', confirmaClave: '', perfil: '', imagen: '', habilitaAdmin: ''});
+      this.formRegistro.setValue({usuario: '', nombre: '', clave: '', confirmaClave: '', imagen: '', habilitaAdmin: ''});
     }
   }
 
@@ -109,6 +102,18 @@ export class RegistroComponent implements OnInit {
       }
     }
 
+    if (this.formRegistro.controls.nombre.invalid)
+    {
+      if (this.formRegistro.controls.nombre.hasError('required'))
+      {
+        this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'Tenés que ingresar un Nombre para identificarte'});
+      }
+      else
+      {
+        this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'Error al validar el Nombre del Usuario'});
+      }
+    }
+
     if (this.formRegistro.controls.clave.invalid)
     {
       if (this.formRegistro.controls.clave.hasError('required'))
@@ -124,16 +129,6 @@ export class RegistroComponent implements OnInit {
         this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'Error al validar la Clave'});
       }
     }
-
-    if (this.formRegistro.controls.perfil.invalid)
-    {
-      this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'Tenés que ingresar un Perfil'});
-    }
-  }
-
-  private mostrarMsjErrorClave(): void
-  {
-    this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'La confirmación de la clave no coincide con la clave ingresada'});
   }
 
   private mostrarMsjErrorAuth(): void
@@ -141,9 +136,9 @@ export class RegistroComponent implements OnInit {
     this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: this.authService.getError()});
   }
 
-  private mostrarMsjErrorAdmin(): void
+  private mostrarMsjErrorClave(): void
   {
-    this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: this.usuariosService.getMsjErrorAdmin()});
+    this.messageService.add({key: 'msjDatos', severity: 'error', summary: 'Error', detail: 'La confirmación de la clave no coincide con la clave ingresada'});
   }
 
   private mostrarMsjOk(): void
@@ -156,43 +151,29 @@ export class RegistroComponent implements OnInit {
     return this.enEspera;
   }
 
-  public eligeAdmin(): boolean
-  {
-    return this.formRegistro.value.perfil === EPerfil.Admin;
-  }
-
   public async registrar(): Promise<void>
   {
-    let usuarioValido: boolean;
     this.enEspera = true; // Muestro el spinner
 
     if (this.formRegistro.valid)
     {
       if (this.formRegistro.value.clave === this.formRegistro.value.confirmaClave)
       {
-        if (this.formRegistro.value.perfil === EPerfil.Admin
-          && this.formRegistro.value.habilitaAdmin !== this.usuariosService.getPswAdmin())
-        {
-          this.mostrarMsjErrorAdmin();
-        }
-        else
-        {
-          const file = ( document.getElementById('img-file') as HTMLInputElement).files[0];
+        const file = ( document.getElementById('img-file') as HTMLInputElement).files[0];
 
-          await this.authService.SignUp(this.formRegistro.value.usuario, this.formRegistro.value.clave, null, file);
-
-          usuarioValido = this.authService.isLoggedIn();
-          if (usuarioValido)
-          {
-            const usuarioNuevo: Usuario = new Usuario(this.formRegistro.value.perfil, this.authService.getUserData());
-            await this.usuariosService.updateUsuario(usuarioNuevo);
+        this.authService.SignUp(
+          this.formRegistro.value.usuario,
+          this.formRegistro.value.clave,
+          this.formRegistro.value.nombre,
+          file
+        )
+        .then(() => {
+          if (this.authService.getError().length > 0) {
+            this.mostrarMsjErrorAuth();
+          } else {
             this.mostrarMsjOk();
           }
-          else
-          {
-            this.mostrarMsjErrorAuth();
-          }
-        }
+        });
       }
       else // El usuario no confirmó bien la clave
       {
@@ -205,26 +186,6 @@ export class RegistroComponent implements OnInit {
     }
 
     this.enEspera = false; // Oculto el spinner
-  }
-
-  public async actualizar(): Promise<void>
-  {
-    if (this.usuario != null)
-    {
-      const usuarioAnterior: Usuario = new Usuario(
-        this.usuario.perfil,
-        null,
-        this.usuario.uid,
-        this.usuario.email,
-        this.usuario.displayName,
-        this.usuario.photoURL,
-        this.usuario.emailVerified
-      );
-      this.usuario.perfil = this.formRegistro.value.perfil;
-      await this.usuariosService.updateUsuario(this.usuario);
-
-      this.mostrarMsjOk();
-    }
   }
 
   public goBack(): void

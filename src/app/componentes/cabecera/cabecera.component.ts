@@ -36,4 +36,12 @@ export class CabeceraComponent implements OnInit {
 
     return urlFoto;
   }
+
+  public getNombreUsuario(): string  {
+    const retorno = this.authService.getUserData().displayName ?
+      this.authService.getUserData().displayName.concat(' (').concat(this.authService.getUserData().email).concat(')') :
+      this.authService.getUserData().email;
+
+    return retorno;
+  }
 }

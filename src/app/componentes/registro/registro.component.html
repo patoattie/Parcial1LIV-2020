@@ -5,45 +5,38 @@
     <form [formGroup]="formRegistro">
       <div class="container-fluid">
         <label><b>Email</b></label>
-        <label *ngIf="authService.isLoggedIn()" style="display: block;">{{this.formRegistro.value.usuario}}</label>
-        <span class="ui-float-label" *ngIf="!authService.isLoggedIn()">
+        <span class="ui-float-label">
             <input id="usuario" formControlName="usuario" name="uname" type="text" pInputText required> 
             <label for="usuario">Ingresá tu correo</label>
         </span>
   
-        <label *ngIf="!authService.isLoggedIn()"><b>Clave</b></label>
-        <span class="ui-float-label" *ngIf="!authService.isLoggedIn()">
+        <label><b>Nombre</b></label>
+        <span class="ui-float-label">
+            <input id="nombre" formControlName="nombre" name="unombre" type="text" pInputText required> 
+            <label for="nombre">Ingresá tu nombre</label>
+        </span>
+  
+        <label><b>Clave</b></label>
+        <span class="ui-float-label">
             <input id="clave" formControlName="clave" name="psw" type="password" [feedback]="false" pPassword required> 
             <label for="clave">Ingresá una clave</label>
         </span>
   
-        <label *ngIf="!authService.isLoggedIn()"><b>Repita la clave</b></label>
-        <span class="ui-float-label" *ngIf="!authService.isLoggedIn()">
+        <label><b>Repita la clave</b></label>
+        <span class="ui-float-label">
             <input id="confirmaClave" formControlName="confirmaClave" name="psw-repeat" type="password" [feedback]="false" pPassword required> 
             <label for="confirmaClave">Volvé a ingresar la misma clave</label>
         </span>
-  
-        <label><b>Selecciona un perfil</b></label>
-        <p-listbox formControlName="perfil" [options]="perfiles"></p-listbox>
-        <span class="ui-float-label" *ngIf="eligeAdmin()">
-            <input id="habilitaAdmin" formControlName="habilitaAdmin" name="pswAdmin" type="password" [feedback]="false" pPassword> 
-            <label for="habilitaAdmin">Ingresá la clave para habilitar Admin</label>
-        </span>
         
-        <div *ngIf="!authService.isLoggedIn()">
+        <div>
           <label><b>Selecciona una imagen para el perfil</b></label>
         </div>
-        <input *ngIf="!authService.isLoggedIn()" formControlName="imagen" type="file" name="img-file" accept="image/png" id="img-file">
+        <input formControlName="imagen" type="file" name="img-file" accept="image/png" id="img-file">
 
         <div class="clearfix">
-          <button *ngIf="authService.isLoggedIn()" type="button" (click)="usuariosService.muestraAbm=false" class="cancelbtn">Volver</button>
-          <button *ngIf="!authService.isLoggedIn()" type="button" (click)="goBack()" class="cancelbtn">Volver</button>
-          <button *ngIf="!authService.isLoggedIn()" type="button" (click)="registrar()" class="signupbtn">
+          <button type="button" (click)="goBack()" class="cancelbtn">Volver</button>
+          <button type="button" (click)="registrar()" class="signupbtn">
             Registrarme
-            <i class="fa fa-spinner fa-spin" *ngIf="getEnEspera()"></i>
-          </button>
-          <button *ngIf="authService.isLoggedIn()" type="button" (click)="actualizar()" class="signupbtn">
-            Guardar
             <i class="fa fa-spinner fa-spin" *ngIf="getEnEspera()"></i>
           </button>
         </div>

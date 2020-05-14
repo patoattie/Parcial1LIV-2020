@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../servicios/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { Observable } from 'rxjs';
-import { Peliculas } from '../../clases/peliculas';
-import { PeliculasService } from '../../servicios/peliculas.service';
 
 @Component({
   selector: 'app-principal',
@@ -15,26 +12,23 @@ export class PrincipalComponent implements OnInit {
     isFirstOpen: true,
     isFirstDisabled: false
   };
-  public peliculas: Observable<Peliculas>;
+
   public items: MenuItem[];
-  public listaPeliculas = true;
-  public pagina = 1;
 
   constructor(
-    public authService: AuthService,
-    public peliculasService: PeliculasService
-    ) { }
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit() {
-    this.peliculas = this.peliculasService.getPeliculas(this.pagina);
-
     this.items = [
       {label: 'Peliculas', command: () => {this.mostrarListaPeliculas(); }},
     ];
+
+    this.mostrarListaPeliculas();
   }
 
-  private mostrarListaPeliculas(): void
-  {
-    this.listaPeliculas = true;
+  private mostrarListaPeliculas(): void {
+    this.router.navigate(['Peliculas'], {relativeTo: this.route});
   }
 }

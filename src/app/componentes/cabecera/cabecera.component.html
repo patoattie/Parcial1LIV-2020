@@ -3,6 +3,7 @@
       <label style="margin-left: 3em; margin-right: 3em; font-size: large;">Sistema de Películas</label>
     </div>
     <div class="ui-toolbar-group-right">
+      <label style="margin-left: 3em; margin-right: 3em; font-size: small;" *ngIf="authService.isLoggedIn()">{{ getNombreUsuario() }}</label>
       <img [src]=getUrlFoto() alt="usuario" (click)="menu.toggle($event)" *ngIf="authService.isLoggedIn()" width="32" height="32">
       <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
     </div>

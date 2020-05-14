@@ -3,5 +3,6 @@
     <p-tabMenu [model]="items" [activeItem]="items[0]"></p-tabMenu>
 </nav>
 <div class="contenido">
-    <app-listado-peliculas *ngIf="listaPeliculas" [listaPeliculas]="peliculas | async"></app-listado-peliculas>
+    <!-- <app-listado-peliculas *ngIf="listaPeliculas" [listaPeliculas]="peliculas | async"></app-listado-peliculas> -->
+    <router-outlet></router-outlet>
 </div>

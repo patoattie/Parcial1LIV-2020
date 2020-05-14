@@ -1,12 +1,8 @@
-import {EPerfil} from '../enums/eperfil.enum';
 import { User } from './user';
 
 export class Usuario extends User
 {
-  public perfil: EPerfil;
-
   constructor(
-    perfil?: EPerfil,
     user?: User,
     uid?: string,
     email?: string,
@@ -22,7 +18,5 @@ export class Usuario extends User
     {
       super(user.uid, user.email, user.displayName, user.photoURL, user.emailVerified);
     }
-
-    this.perfil = perfil;
   }
 }

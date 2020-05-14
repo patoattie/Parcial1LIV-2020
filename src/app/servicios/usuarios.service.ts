@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 
 import {Usuario} from '../clases/usuario';
 import {AuthService} from './auth.service';
-import { EPerfil } from '../enums/eperfil.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +45,7 @@ export class UsuariosService
   {
     let retorno: Usuario = JSON.parse(localStorage.getItem('usuario'));
 
-    if (retorno === null || retorno.perfil === undefined)
+    if (retorno === null)
     {
       this.usuarios.forEach(arrUsuarios =>
         {
@@ -92,13 +91,6 @@ export class UsuariosService
     );
   }
 
-  public updateUsuario(usuario: Usuario): Promise<void>
-  {
-    return this.usuarioCollection.doc(usuario.uid).update({
-      perfil: usuario.perfil
-    });
-  }
-
   public deleteUsuario(uid: string): Promise<void>
   {
     return this.usuarioCollection.doc(uid).delete();
@@ -124,11 +116,6 @@ export class UsuariosService
   public getMsjErrorAdmin(): string
   {
     return 'Clave de Administrador incorrecta';
-  }
-
-  public esAdmin(): boolean
-  {
-    return this.getUsuario(this.authService.getUid()).perfil === EPerfil.Admin;
   }
 
   public getEmail(): string

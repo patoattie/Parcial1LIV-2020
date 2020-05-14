@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Pelicula } from '../../clases/pelicula';
 import { PeliculasService } from '../../servicios/peliculas.service';
 import { Peliculas } from '../../clases/peliculas';
@@ -9,16 +11,21 @@ import { Peliculas } from '../../clases/peliculas';
   styleUrls: ['./listado-peliculas.component.css']
 })
 export class ListadoPeliculasComponent implements OnInit {
-  @Input() listaPeliculas: Peliculas;
+  public listaPeliculas: Observable<Peliculas>;
   public peliculaSeleccionada: Pelicula = null;
   public cols: any[];
   public verDetalle = false;
+  public pagina = 1;
 
   constructor(
-    public peliculas: PeliculasService
+    public peliculas: PeliculasService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    this.listaPeliculas = this.peliculas.getPeliculas(this.pagina);
+
     this.cols = [
       { field: 'backdrop_path', header: 'Portada' },
       { field: 'title', header: 'Título' },
@@ -28,10 +35,10 @@ export class ListadoPeliculasComponent implements OnInit {
     ];
   }
 
-  public muestraDetalle(muestra: boolean, unaPelicula?: Pelicula): void {
-    this.verDetalle = muestra;
+  public muestraDetalle(unaPelicula: Pelicula): void {
     if (unaPelicula) {
-      this.peliculaSeleccionada = unaPelicula;
+      // this.peliculaSeleccionada = unaPelicula;
+      this.router.navigate(['../Pelicula', unaPelicula.id.toString()], {relativeTo: this.route});
     }
   }
 
