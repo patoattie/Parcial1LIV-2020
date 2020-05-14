@@ -13,6 +13,6 @@ export class HttpService {
 
   public peticionGet(url: string, params: any): Observable<any> {
     const paramsHttp = {params};
-    return this.http.get(url, {params: paramsHttp});
+    return this.http.get(url, paramsHttp);
   }
 }
